@@ -5,7 +5,11 @@ enum ButtonCodes {
 	FORWARD = 119, 
 	BACKWARD = 115, 
 	TOLEFT = 97, 
-	TORIGHT = 100
+	TORIGHT = 100,
+	AFORWARD = 72,
+	ABACKWARD = 80,
+	ATOLEFT = 75,
+	ATORIGHT = 77
 };
 
 enum GhostDiraction {
@@ -121,6 +125,42 @@ inline const int posPacManLife() {
 
 inline const int XY() {
 	return 2;
+}
+
+inline const int ignoredCode() {
+	return 224;
+}
+
+inline const int disbandXBlinky() {
+	return 26;
+}
+
+inline const int disbandYBlinky() {
+	return 2;
+}
+
+inline const int disbandXPinky() {
+	return 0;
+}
+
+inline const int disbandYPinky() {
+	return 2;
+}
+
+inline const int disbandXInky() {
+	return 26;
+}
+
+inline const int disbandYInky() {
+	return 34;
+}
+
+inline const int disbandXKlayd() {
+	return 0;
+}
+
+inline const int disbandYKlayd() {
+	return 34;
 }
 
 #endif // !CONSTANTS_

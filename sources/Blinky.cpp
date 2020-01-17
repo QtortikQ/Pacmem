@@ -11,21 +11,26 @@ const char Blinky::getModel() const{
 	return 'B';
 }
 
-void Blinky::move(std::vector<int> pacManPos) {
-	if (pacManPos[0] > pos[0]) {
-		setPosition(getPosition()[0] + 1, getPosition()[1]);
-		pac_man_here_ = RIGHT;
+void Blinky::move() {
+	if (RIGHT == pacManDiraction()) {
+		setPosition(pos[0] + 1, pos[1]);
 	}
-	if (pacManPos[0] < pos[0]) {
-		setPosition(getPosition()[0] - 1, getPosition()[1]);
-		pac_man_here_ = LEFT;
+	if (LEFT == pacManDiraction()) {
+		setPosition(pos[0] - 1, pos[1]);
 	}
-	if (pacManPos[1] > pos[1]) {
-		setPosition(getPosition()[0], getPosition()[1] + 1);
-		pac_man_here_ = DOWN;
+	if (DOWN == pacManDiraction()) {
+		setPosition(pos[0], pos[1] + 1);
 	}
-	if (pacManPos[1] < pos[1]) {
-		setPosition(getPosition()[0], getPosition()[1] - 1);
-		pac_man_here_ = UP;
+	if (UP == pacManDiraction()) {
+		setPosition(pos[0], pos[1] - 1);
+	}
+}
+
+void Blinky::disband() {
+	if (disbandXBlinky() < pos[0]) {
+		setPosition(pos[0] - 1, pos[1]);
+	}
+	if (disbandYBlinky() < pos[1]) {
+		setPosition(pos[0], pos[1] - 1);
 	}
 }

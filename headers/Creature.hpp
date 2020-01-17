@@ -11,8 +11,8 @@ public:
 	virtual ~Creature() {
 	}
 	virtual const char getModel() const = 0;
-	virtual void setPosition(int x, int y) = 0;
-	virtual bool destroy() = 0;
+	virtual void setPosition(const int x, const int y) = 0;
+	virtual const  bool destroy() = 0;
 protected:
 	float speed_;
 	std::vector<int> pos;

@@ -2,6 +2,12 @@
 #include "Constants.hpp"
 //#include <>
 
+Render::Render() {
+}
+
+Render::~Render() {
+}
+
 void Render::prepScene(int sizeX = getWidth(), int sizeY = getHeight()) {
 	SMALL_RECT windowSize = { 0, 0, sizeX, sizeY };
 	COORD windowBufSize = { sizeX, sizeY };
@@ -41,7 +47,7 @@ void Render::prepScene(int sizeX = getWidth(), int sizeY = getHeight()) {
 	cleanScene(sizeX, sizeY);
 }
 
-void Render::cleanScene(int width, int height) {
+void Render::cleanScene(const int &width, const int &height) {
 	for (int x = 0; x < width + 1; x++)
 	{
 		for (int y = 0; y < height + 1; y++)
@@ -81,18 +87,18 @@ void Render::renderMap(std::vector<std::string>& mapData){
 	}
 }
 
-char Render::renderSpecFruit() {
+const char Render::renderSpecFruit() {
 	return '&';
 }
 
-void Render::setChar(int sizeX, int x, int y, char c)
+void Render::setChar(const int &sizeX, const int &x, const int &y, char c)
 {
 	mChiBuffer[x + (sizeX + 1) * y].Char.AsciiChar = c;
 	mChiBuffer[x + (sizeX + 1) * y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
 
 }
 
-char Render::getChar(int sizeX, int x, int y)
+char Render::getChar(const int &sizeX, const int &x, const int &y)
 {
 	return mChiBuffer[x + (sizeX + 1) * y].Char.AsciiChar;
 }

@@ -13,15 +13,17 @@
 class Render
 {
 public:
+	Render();
+	virtual ~Render();
 	HANDLE mConsoleIn;
 	CHAR_INFO* mChiBuffer;
-	void prepScene(int sizeX, int sizeY);
+	void prepScene(const int sizeX, const int sizeY);
 	void renderScene();
 	void renderMap(std::vector<std::string>& mapData);
-	char renderSpecFruit();
-	void setChar(int sizeX, int x, int y, char c);
-	char getChar(int sizeX, int x, int y);
-	void cleanScene(int width, int height);
+	const char renderSpecFruit();
+	void setChar(const int &sizeX, const int &x, const int &y, char c);
+	char getChar(const int &sizeX, const int &x, const int &y);
+	void cleanScene(const int &width, const int &height);
 private:
 	HANDLE mConsole;
 	COORD mDwBufferSize;

@@ -9,6 +9,7 @@
 #include "MainMenu.hpp"
 #include "Inky.hpp"
 #include "Klayd.hpp"
+#include "StateMachine.hpp"
 
 class MainClass
 {
@@ -33,21 +34,23 @@ public:
 private:
 	int score_;
 	int time_;
-	int num_fruits_;
+	int numFruits_;
 	int level_;
-	int curr_time_;
-	bool can_spawn_fruit_;
+	int currTime_;
+	bool canSpawnFruit_;
 	int button_;
 	bool pause_;
-	std::string pac_man_lives_;
+	std::string pacManLives_;
 	std::string scores_;
-	std::vector<std::string> local_map_;
-	std::vector<Ghost*> ghostV;
+	std::string specFruits;
+	std::vector<std::string> localMap_;
+	std::vector<std::shared_ptr<Ghost>> ghostV;
 	//vector<Ghost> ghosts_;
-	PacMan pac_man_;
-	GameField game_field_;
+	PacMan pacMan_;
+	GameField gameField_;
 	Render render_;
-	MainMenu main_menu_;
+	MainMenu mainMenu_;
+	StateMachine stateMachine_;
 };
 
 #endif

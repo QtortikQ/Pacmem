@@ -9,7 +9,8 @@ public:
 	Klayd();
 	virtual ~Klayd();
 	virtual const char getModel() const override;
-	virtual void move(std::vector<int> pacManPos) override;
+	virtual void move() override;
+	virtual void disband() override;
 };
 
 #endif // !KLAYD_

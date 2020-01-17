@@ -9,17 +9,17 @@ public:
 	PacMan();
 	virtual ~PacMan();
 	virtual const char getModel() const;
-	virtual bool destroy();
-	void setPosition(int x, int y);
+	virtual const bool destroy();
+	void setPosition(const int x, const int y);
 	std::vector<int> getPosition();
-	void setIsEnergized(bool b);
+	void setIsEnergized(const bool b);
 	bool getIsEnergized();
-	bool takeDamage(int damage);
+	bool takeDamage(const int damage);
 	int getLives();
 	void setLives();
 private:
-	bool is_energized_;
-	int num_of_lives_;
+	bool isEnergized_;
+	int numOfLives_;
 };
 
 #endif

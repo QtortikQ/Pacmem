@@ -9,7 +9,7 @@ public:
 	MainMenu();
 	virtual ~MainMenu();
 	int mainMenu();
-	void pauseMenu(int button);
+	void pauseMenu(const int button);
 	bool paused();
 	int exit();
 private:

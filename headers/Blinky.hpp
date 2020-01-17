@@ -9,7 +9,8 @@ public:
 	Blinky();
 	virtual ~Blinky();
 	virtual const char getModel() const override;
-	virtual void move(std::vector<int> positionStruct) override;
+	virtual void move() override;
+	virtual void disband() override;
 
 };
 

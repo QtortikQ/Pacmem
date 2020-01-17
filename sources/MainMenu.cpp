@@ -1,7 +1,8 @@
 #include "MainMenu.hpp"
 #include "Constants.hpp"
 
-MainMenu::MainMenu() : pause_(false) {
+MainMenu::MainMenu() : button_(FORWARD),
+pause_(false) {
 }
 
 MainMenu::~MainMenu() {
