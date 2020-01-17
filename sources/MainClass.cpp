@@ -2,6 +2,7 @@
 #include "MainClass.hpp"
 #include "Constants.hpp"
 #include "PerformanceCounter.hpp"
+#include "SmartPointer.hpp"
 #include <conio.h>
 
 CStopwatch timer;
@@ -16,7 +17,8 @@ MainClass::MainClass() : score_(0),
 	can_spawn_fruit_(true),
 	scores_("0"),
 	pac_man_lives_("2"), 
-	pause_(true) {
+	pause_(true),
+	button_(FORWARD) {
 
 }
 
@@ -24,7 +26,7 @@ MainClass::~MainClass() {
 }
 
 void MainClass::spawnPacMan() {
-	render_.setChar(getWidth(), pac_man_.getPosition().posX, pac_man_.getPosition().posY, pac_man_.getModel());
+	render_.setChar(getWidth(), pac_man_.getPosition()[0], pac_man_.getPosition()[1], pac_man_.getModel());
 }
 
 void MainClass::spawnScepFruit(int fruit, int posX, int PosY) {
@@ -41,12 +43,14 @@ void MainClass::spawnScepFruit(int fruit, int posX, int PosY) {
 }
 
 void MainClass::spawnGhost() {
-	render_.setChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY, blinky_.getModel());
+	for (int i = 0; i < numOfGhosts(); i++) {
+		render_.setChar(getWidth(), ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1], ghostV[i]->getModel());
+	}
 }
 
 void MainClass::update(float deltaTime) {
-	render_.renderMap(local_map_);
 	int k = 0;
+	render_.renderMap(local_map_);
 	for (int i = 0; i < getHeight(); i++) {
 		fillBoard(i, k);
 	}
@@ -69,180 +73,124 @@ void MainClass::update(float deltaTime) {
 void MainClass::setMovement(int button) {
 
 		if (FORWARD == button &&
-			render_.getChar(getWidth(), pac_man_.getPosition().posX, pac_man_.getPosition().posY - 1) != char(getWall())) {
+			render_.getChar(getWidth(), pac_man_.getPosition()[0], pac_man_.getPosition()[1] - 1) != char(getWall())) {
 
 			button_ = button;
 		}
 		if (BACKWARD == button && 
-			render_.getChar(getWidth(), pac_man_.getPosition().posX, pac_man_.getPosition().posY + 1) != char(getWall())) {
+			render_.getChar(getWidth(), pac_man_.getPosition()[0], pac_man_.getPosition()[1] + 1) != char(getWall())) {
 			button_ = button;
 		}
 		if (TOLEFT == button && 
-			render_.getChar(getWidth(), pac_man_.getPosition().posX - 1, pac_man_.getPosition().posY) != char(getWall())) {
+			render_.getChar(getWidth(), pac_man_.getPosition()[0] - 1, pac_man_.getPosition()[1]) != char(getWall())) {
 			button_ = button;
 		}
 		if (TORIGHT == button &&
-			render_.getChar(getWidth(), pac_man_.getPosition().posX + 1, pac_man_.getPosition().posY) != char(getWall())) {
+			render_.getChar(getWidth(), pac_man_.getPosition()[0] + 1, pac_man_.getPosition()[1]) != char(getWall())) {
 			button_ = button;
 		}
 }
 
 void MainClass::movement() {
-	render_.setChar(getWidth(), pac_man_.getPosition().posX, pac_man_.getPosition().posY, ' ');
-	local_map_[pac_man_.getPosition().posY][pac_man_.getPosition().posX] = 0;
+	render_.setChar(getWidth(), pac_man_.getPosition()[0], pac_man_.getPosition()[1], ' ');
+	local_map_[pac_man_.getPosition()[1]][pac_man_.getPosition()[0]] = 0;
 	switch (button_) {
 	case FORWARD:
-		if (render_.getChar(getWidth(), pac_man_.getPosition().posX, pac_man_.getPosition().posY - 1) != char(getWall())) {
+		if (render_.getChar(getWidth(), pac_man_.getPosition()[0], pac_man_.getPosition()[1] - 1) != char(getWall())) {
 
-			eatFruit(pac_man_.getPosition().posX, pac_man_.getPosition().posY - 1);
+			eatFruit(pac_man_.getPosition()[0], pac_man_.getPosition()[1] - 1);
 
-			pac_man_.setPosition(pac_man_.getPosition().posX,
-				pac_man_.getPosition().posY - 1);
+			pac_man_.setPosition(pac_man_.getPosition()[0],
+				pac_man_.getPosition()[1] - 1);
 		}
 		break;
 
 	case BACKWARD:
-		if (render_.getChar(getWidth(), pac_man_.getPosition().posX, pac_man_.getPosition().posY + 1) != char(getWall())) {
+		if (render_.getChar(getWidth(), pac_man_.getPosition()[0], pac_man_.getPosition()[1] + 1) != char(getWall())) {
 
-			eatFruit(pac_man_.getPosition().posX, pac_man_.getPosition().posY + 1);
+			eatFruit(pac_man_.getPosition()[0], pac_man_.getPosition()[1] + 1);
 
-			pac_man_.setPosition(pac_man_.getPosition().posX,
-				pac_man_.getPosition().posY + 1);
+			pac_man_.setPosition(pac_man_.getPosition()[0],
+				pac_man_.getPosition()[1] + 1);
 		}
 		break;
 
 	case TOLEFT:
-		if (render_.getChar(getWidth(), pac_man_.getPosition().posX - 1, pac_man_.getPosition().posY) != char(getWall())) {
+		if (render_.getChar(getWidth(), pac_man_.getPosition()[0] - 1, pac_man_.getPosition()[1]) != char(getWall())) {
 
-			if (pac_man_.getPosition().posX - 1 == 0) {
-				render_.setChar(getWidth(), pac_man_.getPosition().posX,
-					pac_man_.getPosition().posY, L' ');
-				pac_man_.setPosition(pac_man_.getPosition().posX + endOfField(),
-					pac_man_.getPosition().posY);
-				render_.setChar(28, pac_man_.getPosition().posX,
-					pac_man_.getPosition().posY, pac_man_.getModel());
+			if (pac_man_.getPosition()[0] - 1 == 0) {
+				pac_man_.setPosition(pac_man_.getPosition()[0] + endOfField(),
+					pac_man_.getPosition()[1]);
+				render_.setChar(28, pac_man_.getPosition()[0],
+					pac_man_.getPosition()[1], pac_man_.getModel());
 			}
 
-			eatFruit(pac_man_.getPosition().posX - 1, pac_man_.getPosition().posY);
+			eatFruit(pac_man_.getPosition()[0] - 1, pac_man_.getPosition()[1]);
 
-			pac_man_.setPosition(pac_man_.getPosition().posX - 1,
-				pac_man_.getPosition().posY);
+			pac_man_.setPosition(pac_man_.getPosition()[0] - 1,
+				pac_man_.getPosition()[1]);
 		}
 		break;
 
 	case TORIGHT:
-		if (render_.getChar(getWidth(), pac_man_.getPosition().posX + 1, pac_man_.getPosition().posY) != char(getWall())) {
+		if (render_.getChar(getWidth(), pac_man_.getPosition()[0] + 1, pac_man_.getPosition()[1]) != char(getWall())) {
 
-			if (pac_man_.getPosition().posX + 1 == getWidth()) {
-				render_.setChar(getWidth(), pac_man_.getPosition().posX,
-					pac_man_.getPosition().posY, L' ');
-				pac_man_.setPosition(pac_man_.getPosition().posX - endOfField(),
-					pac_man_.getPosition().posY);
-				render_.setChar(28, pac_man_.getPosition().posX,
-					pac_man_.getPosition().posY, pac_man_.getModel());
+			if (pac_man_.getPosition()[0] + 1 == getWidth()) {
+				pac_man_.setPosition(pac_man_.getPosition()[0] - endOfField(),
+					pac_man_.getPosition()[1]);
+				render_.setChar(28, pac_man_.getPosition()[0],
+					pac_man_.getPosition()[1], pac_man_.getModel());
 			}
 
-			eatFruit(pac_man_.getPosition().posX + 1, pac_man_.getPosition().posY);
+			eatFruit(pac_man_.getPosition()[0] + 1, pac_man_.getPosition()[1]);
 
-			pac_man_.setPosition(pac_man_.getPosition().posX + 1,
-				pac_man_.getPosition().posY);
+			pac_man_.setPosition(pac_man_.getPosition()[0] + 1,
+				pac_man_.getPosition()[1]);
 		}
+		break;
+	default:
 		break;
 	}
 }
 
 void MainClass::ghostMovement() {
-	if (UP == blinky_.findPacMan(pac_man_.getPosition().posX, pac_man_.getPosition().posY)) {
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX - 1, blinky_.getPosition().posY) && 
-			render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY - 1)) == char(getWall())) {
+	for (int i = 0; i < numOfGhosts(); i++) {
+		switch (ghostV[i]->pacManDiraction()) {
+		case UP:
+			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] - 1) != char(getWall())) {
+				ghostV[i]->move(pac_man_.getPosition());
+			} else {
+				ghostV[i]->setPosition(ghostV[i]->getPosition()[0] - 1, ghostV[i]->getPosition()[1]);
+			}
+			break;
 
-			blinky_.setPosition(blinky_.getPosition().posX + 1,
-				blinky_.getPosition().posY);
-		}
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX + 1, blinky_.getPosition().posY) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY - 1)) == char(getWall())) {
+		case DOWN:
+			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] + 1) != char(getWall())) {
+				ghostV[i]->move(pac_man_.getPosition());
+			} else {
+				ghostV[i]->setPosition(ghostV[i]->getPosition()[0] + 1, ghostV[i]->getPosition()[1]);
+			}
+			break;
 
-			blinky_.setPosition(blinky_.getPosition().posX - 1,
-				blinky_.getPosition().posY);
+		case LEFT:
+			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0] - 1, ghostV[i]->getPosition()[1]) != char(getWall())) {
+				ghostV[i]->move(pac_man_.getPosition());
+			} else {
+				ghostV[i]->setPosition(ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] + 1);
+			}
+			break;
 
-		}
-		if (render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY - 1) == char(getWall())) {
-			blinky_.setPosition(blinky_.getPosition().posX - 1,
-				blinky_.getPosition().posY);
-		} else {
-			blinky_.move();
-		}
-	}
-
-	if (DOWN == blinky_.findPacMan(pac_man_.getPosition().posX, pac_man_.getPosition().posY)) {
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX - 1, blinky_.getPosition().posY) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY + 1)) == char(getWall())) {
-
-			blinky_.setPosition(blinky_.getPosition().posX + 1,
-				blinky_.getPosition().posY);
-		}
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX + 1, blinky_.getPosition().posY) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY + 1)) == char(getWall())) {
-
-			blinky_.setPosition(blinky_.getPosition().posX - 1,
-				blinky_.getPosition().posY);
-		}
-		if (render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY + 1) == char(getWall())) {
-			blinky_.setPosition(blinky_.getPosition().posX + 1,
-				blinky_.getPosition().posY);
-		}	else {
-			blinky_.move();
+		case RIGHT:
+			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0] + 1, ghostV[i]->getPosition()[1]) != char(getWall())) {
+				ghostV[i]->move(pac_man_.getPosition());
+			} else {
+				ghostV[i]->setPosition(ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] - 1);
+			}
+			break;
 		}
 	}
-
-	if (LEFT == blinky_.findPacMan(pac_man_.getPosition().posX, pac_man_.getPosition().posY)) {
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY + 1) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX - 1, blinky_.getPosition().posY)) == char(getWall())) {
-
-			blinky_.setPosition(blinky_.getPosition().posX,
-				blinky_.getPosition().posY - 1);
-		}
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY - 1) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX - 1, blinky_.getPosition().posY)) == char(getWall())) {
-
-			blinky_.setPosition(blinky_.getPosition().posX,
-				blinky_.getPosition().posY + 1);
-		}
-		if (render_.getChar(getWidth(), blinky_.getPosition().posX - 1, blinky_.getPosition().posY) == char(getWall())) {
-			blinky_.setPosition(blinky_.getPosition().posX,
-				blinky_.getPosition().posY - 1);
-		} else {
-			blinky_.move();
-		}
-	}
-
-	if (RIGHT == blinky_.findPacMan(pac_man_.getPosition().posX, pac_man_.getPosition().posY)) {
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY + 1) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX + 1, blinky_.getPosition().posY)) == char(getWall())) {
-
-			blinky_.setPosition(blinky_.getPosition().posX,
-				blinky_.getPosition().posY - 1);
-		}
-		if ((render_.getChar(getWidth(), blinky_.getPosition().posX, blinky_.getPosition().posY - 1) &&
-			render_.getChar(getWidth(), blinky_.getPosition().posX + 1, blinky_.getPosition().posY)) == char(getWall())) {
-
-			blinky_.setPosition(blinky_.getPosition().posX,
-				blinky_.getPosition().posY + 1);
-		}
-		if (render_.getChar(getWidth(), blinky_.getPosition().posX + 1, blinky_.getPosition().posY) == char(getWall())) {
-			blinky_.setPosition(blinky_.getPosition().posX,
-				blinky_.getPosition().posY + 1);
-		}
-		else {
-			blinky_.move();
-		}
-	}
-
-	if (DEAD == blinky_.findPacMan(pac_man_.getPosition().posX, pac_man_.getPosition().posY)) {
-		tryEatPacMan(pac_man_.getPosition(), pac_man_.getIsEnergized());
-		eatGhost();
-		blinky_.move();
-	}
+	tryEatPacMan(pac_man_.getPosition(), pac_man_.getIsEnergized());
+	eatGhost();
 }
 
 void MainClass::eatFruit(int x, int y) {
@@ -265,8 +213,8 @@ void MainClass::eatFruit(int x, int y) {
 
 void MainClass::eatGhost() {
 	if (true == pac_man_.getIsEnergized() &&
-		blinky_.getPosition().posX == pac_man_.getPosition().posX &&
-		blinky_.getPosition().posY == pac_man_.getPosition().posY) {
+		ghostV[0]->getPosition()[0] == pac_man_.getPosition()[0] &&
+		ghostV[0]->getPosition()[1] == pac_man_.getPosition()[1]) {
 		score_ += 100 * level_;
 		scores_ = std::to_string(score_);
 	}
@@ -277,8 +225,10 @@ void MainClass::energizePacMan() {
 	pac_man_.setIsEnergized(true);
 }
 
-void MainClass::tryEatPacMan(PositionStruct positionStruct, bool energize) {
-	if (positionStruct.posX == blinky_.getPosition().posX && positionStruct.posY == blinky_.getPosition().posY && false == energize) {
+void MainClass::tryEatPacMan(std::vector<int> positionStruct, bool energize) {
+	if (positionStruct[0] == ghostV[0]->getPosition()[0] && 
+		positionStruct[1] == ghostV[0]->getPosition()[1] && 
+		false == energize) {
 		pac_man_.takeDamage(1);
 		pac_man_.setPosition(startPacManPosX(), startPacManPosY());
 		pac_man_lives_ = std::to_string(pac_man_.getLives());
@@ -314,16 +264,22 @@ void MainClass::run() {
 	int deltaTime = 0;
 	num_fruits_ = 0;
 
+	ghostV.push_back(Ghost::creatGhost(BLINKY));
+	ghostV.push_back(Ghost::creatGhost(PINKY));
+	ghostV.push_back(Ghost::creatGhost(INKY));
+	ghostV.push_back(Ghost::creatGhost(KLAYD));
+
 	render_.prepScene(getWidth(), getHeight());
 	pac_man_.setLives();
 	pac_man_.setPosition(startPacManPosX(), startPacManPosY());
-	blinky_.setPosition(startXPosBlinky(), startYPosBlinky());
+	for (int i = 0; i < numOfGhosts(); i++) {
+		ghostV[i]->setPosition(startXPosGhosts() + i, startYPosGhosts());
+	}
 	while (true) {
 		timer.CStart();
 		if (_kbhit())
 		{
 			setMovement(_getch());
-			//main_menu_.pauseMenu(button_);
 			if (!FlushConsoleInputBuffer(render_.mConsoleIn))
 				std::cout << "FlushConsoleInputBuffer failed with error " << GetLastError();
 		}
@@ -368,4 +324,26 @@ void MainClass::run() {
 			}
 		}
 	}
+}
+
+Ghost* Ghost::creatGhost(GhostID id) {
+	Ghost *ghost;
+	ghost = new Blinky();
+	switch (id) {
+	case BLINKY:
+		ghost = new Blinky();
+		break;
+	case PINKY:
+		ghost = new Pinky();
+		break;
+	case INKY:
+		ghost = new Inky();
+		break;
+	case KLAYD:
+		ghost = new Klayd();
+		break;
+	default:
+		assert(false);
+	}
+	return ghost;
 }

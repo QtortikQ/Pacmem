@@ -21,6 +21,8 @@ int MainMenu::mainMenu() {
 	}
 	if(button_ == '2') {
 		return 0;
+	} else {
+		return 0;
 	}
 }
 
@@ -30,6 +32,8 @@ void MainMenu::pauseMenu(int button) {
 	}
 	if (pauseButton() == button && false == pause_) {
 		pause_ = true;
+	} else {
+		std::cout << "Something went wrong!" << std::endl;
 	}
 }
 

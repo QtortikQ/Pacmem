@@ -1,16 +1,16 @@
-#include "Pinky.hpp"
+#include "Klayd.hpp"
 
-Pinky::Pinky() {
+Klayd::Klayd() {
 }
 
-Pinky::~Pinky() {
+Klayd::~Klayd() {
 }
 
-const char Pinky::getModel() const {
-	return 'P';
+const char Klayd::getModel() const {
+	return 'K';
 }
 
-void Pinky::move(std::vector<int> pacManPos) {
+void Klayd::move(std::vector<int> pacManPos) {
 	if (pacManPos[0] > pos[0]) {
 		setPosition(getPosition()[0] + 1, getPosition()[1]);
 	}

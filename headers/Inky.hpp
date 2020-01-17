@@ -1,15 +1,16 @@
-#ifndef PINKY_
-#define PINKY_
+#ifndef INKY_
+#define INKY_
 
 #include "Ghost.hpp"
 
-class Pinky : public Ghost
+
+class Inky : public Ghost
 {
 public:
-	Pinky();
-	virtual ~Pinky();
+	Inky();
+	virtual ~Inky();
 	virtual const char getModel() const override;
 	virtual void move(std::vector<int> pacManPos) override;
 };
 
-#endif // !PINKY_
+#endif // ! INKY_

@@ -1,16 +1,16 @@
-#include "Pinky.hpp"
+#include "Inky.hpp"
 
-Pinky::Pinky() {
+Inky::Inky() {
 }
 
-Pinky::~Pinky() {
+Inky::~Inky() {
 }
 
-const char Pinky::getModel() const {
-	return 'P';
+const char Inky::getModel() const {
+	return 'I';
 }
 
-void Pinky::move(std::vector<int> pacManPos) {
+void Inky::move(std::vector<int> pacManPos) {
 	if (pacManPos[0] > pos[0]) {
 		setPosition(getPosition()[0] + 1, getPosition()[1]);
 	}

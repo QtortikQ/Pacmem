@@ -8,11 +8,8 @@ class Blinky : public Ghost
 public:
 	Blinky();
 	virtual ~Blinky();
-	virtual const char getModel() const;
-	virtual void move();
-	virtual int findPacMan(int x, int y);
-	virtual void setPosition(int x, int y);
-	virtual PositionStruct getPosition();
+	virtual const char getModel() const override;
+	virtual void move(std::vector<int> positionStruct) override;
 
 };
 

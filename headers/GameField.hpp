@@ -1,7 +1,6 @@
 #ifndef GAME_FIELD_
 #define GAME_FIELD_
 
-#include "PositionStruct.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,7 +13,6 @@ public:
 	void generateMap();
 private:
 	std::ifstream mapFile_;
-	PositionStruct position_struct_;
 	std::vector<std::string> map_;
 };
 

@@ -11,7 +11,7 @@ public:
 	virtual const char getModel() const;
 	virtual bool destroy();
 	void setPosition(int x, int y);
-	PositionStruct getPosition();
+	std::vector<int> getPosition();
 	void setIsEnergized(bool b);
 	bool getIsEnergized();
 	bool takeDamage(int damage);

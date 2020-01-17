@@ -19,12 +19,15 @@ bool PacMan::destroy() {
 }
 
 void PacMan::setPosition(int x, int y) {
-	position_struct_.posX = x;
-	position_struct_.posY = y;
+	pos.resize(XY());
+	pos[0] = x;
+	pos[1] = y;
+	//position_struct_.position[0] = x;
+	//position_struct_.position[1] = y;
 }
 
-PositionStruct PacMan::getPosition() {
-	return position_struct_;
+std::vector<int> PacMan::getPosition() {
+	return pos;
 }
 
 void PacMan::setIsEnergized(bool b) {

@@ -1,7 +1,6 @@
 #ifndef RENDER_
 #define RENDER_
 
-#include "PositionStruct.hpp"
 #include <vector>
 #include <string>
 #include <windows.h>

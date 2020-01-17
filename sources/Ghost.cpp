@@ -16,9 +16,19 @@ bool Ghost::destroy() {
 	return true;
 }
 
-void Ghost::move() {
+void Ghost::move(std::vector<int> positionStruct) {
 }
 
-int Ghost::findPacMan(int x, int y) {
-	return 1;
+void Ghost::setPosition(int x, int y) {
+	pos.resize(XY());
+	pos[0] = x;
+	pos[1] = y;
+}
+
+std::vector<int> Ghost::getPosition() {
+	return pos;
+}
+
+int Ghost::pacManDiraction() {
+	return pac_man_here_;
 }

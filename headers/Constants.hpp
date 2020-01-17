@@ -16,6 +16,17 @@ enum GhostDiraction {
 	DEAD
 };
 
+enum GhostID {
+	BLINKY = 0,
+	PINKY,
+	INKY,
+	KLAYD
+};
+
+inline const int numOfGhosts() {
+	return 4;
+}
+
 inline const int nFruitScore() {
 	return 10;
 }
@@ -76,11 +87,11 @@ inline const int sFruitScore() {
 	return 100;
 }
 
-inline const int startXPosBlinky() {
+inline const int startXPosGhosts() {
 	return 14;
 }
 
-inline const int startYPosBlinky() {
+inline const int startYPosGhosts() {
 	return 14;
 }
 
@@ -106,6 +117,10 @@ inline const int posScore() {
 
 inline const int posPacManLife() {
 	return 8;
+}
+
+inline const int XY() {
+	return 2;
 }
 
 #endif // !CONSTANTS_

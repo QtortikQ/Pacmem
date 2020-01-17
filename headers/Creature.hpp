@@ -1,7 +1,7 @@
 #ifndef CREATURE_
 #define CREATURE_
 
-#include "PositionStruct.hpp"
+#include <vector>
 
 class Creature
 {
@@ -15,7 +15,8 @@ public:
 	virtual bool destroy() = 0;
 protected:
 	float speed_;
-	PositionStruct position_struct_;
+	std::vector<int> pos;
+	
 };
 
 #endif // !CREATURE_

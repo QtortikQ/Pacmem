@@ -7,6 +7,8 @@
 #include "Blinky.hpp"
 #include "Pinky.hpp"
 #include "MainMenu.hpp"
+#include "Inky.hpp"
+#include "Klayd.hpp"
 
 class MainClass
 {
@@ -16,7 +18,7 @@ public:
 	void spawnPacMan();
 	void spawnGhost();
 	void spawnScepFruit(int fruit, int posX, int posY);
-	void tryEatPacMan(PositionStruct positionStruct, bool energize);
+	void tryEatPacMan(std::vector<int> positionStruct, bool energize);
 	void setMovement(int button);
 	void run();
 	void update(float deltaTime);
@@ -40,12 +42,11 @@ private:
 	std::string pac_man_lives_;
 	std::string scores_;
 	std::vector<std::string> local_map_;
+	std::vector<Ghost*> ghostV;
 	//vector<Ghost> ghosts_;
 	PacMan pac_man_;
 	GameField game_field_;
 	Render render_;
-	Blinky blinky_;
-	Pinky pinky_;
 	MainMenu main_menu_;
 };
 
