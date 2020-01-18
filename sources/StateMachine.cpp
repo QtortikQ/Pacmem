@@ -7,13 +7,13 @@ StateMachine::~StateMachine() {
 }
 
 void StateMachine::moveState() {
-	ghost_.move();
+	ghost_->move();
 }
 
 void StateMachine::disbandState() {
-	ghost_.disband();
+	ghost_->disband();
 }
 
-void StateMachine::setState(Ghost ghost) {
+void StateMachine::setState(std::shared_ptr<Ghost> ghost) {
 	ghost_ = ghost;
 }

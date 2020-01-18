@@ -30,6 +30,7 @@ public:
 	void eatGhost();
 	void startPause();
 	void fillBoard(int &iterationF, int &iterationS);
+	void chooseState(int &iterator);
 
 private:
 	int score_;

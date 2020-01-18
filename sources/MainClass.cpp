@@ -166,7 +166,8 @@ void MainClass::ghostMovement() {
 				{
 					stateMachine_.setState();
 				} else {}*/
-				ghostV[i]->move();
+				chooseState(i);
+				//ghostV[i]->move();
 			} else {
 				ghostV[i]->setPosition(ghostV[i]->getPosition()[0] - 1, ghostV[i]->getPosition()[1]);
 			}
@@ -174,7 +175,8 @@ void MainClass::ghostMovement() {
 
 		case DOWN:
 			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] + 1) != char(getWall())) {
-				ghostV[i]->move();
+				//ghostV[i]->move();
+				chooseState(i);
 			} else {
 				ghostV[i]->setPosition(ghostV[i]->getPosition()[0] + 1, ghostV[i]->getPosition()[1]);
 			}
@@ -182,7 +184,8 @@ void MainClass::ghostMovement() {
 
 		case LEFT:
 			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0] - 1, ghostV[i]->getPosition()[1]) != char(getWall())) {
-				ghostV[i]->move();
+				//ghostV[i]->move();
+				chooseState(i);
 			} else {
 				ghostV[i]->setPosition(ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] + 1);
 			}
@@ -190,7 +193,8 @@ void MainClass::ghostMovement() {
 
 		case RIGHT:
 			if (render_.getChar(getWidth(), ghostV[i]->getPosition()[0] + 1, ghostV[i]->getPosition()[1]) != char(getWall())) {
-				ghostV[i]->move();
+				//ghostV[i]->move();
+				chooseState(i);
 			} else {
 				ghostV[i]->setPosition(ghostV[i]->getPosition()[0], ghostV[i]->getPosition()[1] - 1);
 			}
@@ -199,6 +203,16 @@ void MainClass::ghostMovement() {
 	}
 	tryEatPacMan(pacMan_.getPosition(), pacMan_.getIsEnergized());
 	eatGhost();
+}
+
+void MainClass::chooseState(int &iterator) {
+	if (true == pacMan_.getIsEnergized()) {
+		stateMachine_.setState(ghostV[iterator]);
+		stateMachine_.disbandState();
+	} else {
+		stateMachine_.setState(ghostV[iterator]);
+		stateMachine_.moveState();
+	}
 }
 
 void MainClass::eatFruit(int x, int y) {

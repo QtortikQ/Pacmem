@@ -8,12 +8,12 @@ class StateMachine
 public:
 	StateMachine();
 	virtual ~StateMachine();
-	virtual void setState(Ghost ghost);
+	virtual void setState(std::shared_ptr<Ghost> ghost);
 	virtual void moveState();
 	virtual void disbandState();
 
 private:
-	Ghost ghost_;
+	std::shared_ptr<Ghost> ghost_;
 };
 
 #endif // !STATE_MACHINE_
