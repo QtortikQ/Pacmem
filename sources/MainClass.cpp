@@ -28,7 +28,9 @@ void MainClass::spawnPacMan() {
 	render_.setChar(getWidth(), pacMan_.getPosition()[0], pacMan_.getPosition()[1], pacMan_.getModel());
 }
 
-void MainClass::spawnScepFruit(int fruit, int posX, int PosY) {
+void MainClass::spawnScepFruit(int fruit, 
+	int posX, 
+	int PosY) {
 	if (fruit == numFruits_ && canSpawnFruit_) {
 		timeSpawn.CStart();
 		render_.setChar(getWidth(), posX, PosY, render_.renderSpecFruit());
@@ -200,9 +202,9 @@ void MainClass::ghostMovement() {
 			}
 			break;
 		}
+		tryEatPacMan(pacMan_.getPosition(), pacMan_.getIsEnergized(), i);
+		eatGhost(i);
 	}
-	tryEatPacMan(pacMan_.getPosition(), pacMan_.getIsEnergized());
-	eatGhost();
 }
 
 void MainClass::chooseState(int &iterator) {
@@ -234,10 +236,10 @@ void MainClass::eatFruit(int x, int y) {
 	}
 }
 
-void MainClass::eatGhost() {
+void MainClass::eatGhost(int &iterator) {
 	if (true == pacMan_.getIsEnergized() &&
-		ghostV[0]->getPosition()[0] == pacMan_.getPosition()[0] &&
-		ghostV[0]->getPosition()[1] == pacMan_.getPosition()[1]) {
+		ghostV[iterator]->getPosition()[0] == pacMan_.getPosition()[0] &&
+		ghostV[iterator]->getPosition()[1] == pacMan_.getPosition()[1]) {
 		score_ += 100 * level_;
 		scores_ = std::to_string(score_);
 	}
@@ -248,9 +250,11 @@ void MainClass::energizePacMan() {
 	pacMan_.setIsEnergized(true);
 }
 
-void MainClass::tryEatPacMan(std::vector<int> positionStruct, bool energize) {
-	if (positionStruct[0] == ghostV[0]->getPosition()[0] && 
-		positionStruct[1] == ghostV[0]->getPosition()[1] && 
+void MainClass::tryEatPacMan(std::vector<int> positionStruct, 
+	bool energize, 
+	int &iterator) {
+	if (positionStruct[0] == ghostV[iterator]->getPosition()[0] &&
+		positionStruct[1] == ghostV[iterator]->getPosition()[1] &&
 		false == energize) {
 		pacMan_.takeDamage(1);
 		pacMan_.setPosition(startPacManPosX(), startPacManPosY());
@@ -314,9 +318,8 @@ void MainClass::run() {
 		if (false == mainMenu_.paused()) {
 			update((float)deltaTime / 1000.0f);
 
-			Sleep(1);
-			while (1)
-			{
+			Sleep(true);
+			while (true) {
 				deltaTime = timer.CNow();
 				if (deltaTime > 200)
 					break;
@@ -324,8 +327,7 @@ void MainClass::run() {
 
 			sum += deltaTime;
 			counter++;
-			if (sum >= 10000)
-			{
+			if (sum >= 10000) {
 				TCHAR  szbuff[255];
 				StringCchPrintf(szbuff, 255, TEXT("FPS: %d"), counter);
 				SetConsoleTitle(szbuff);

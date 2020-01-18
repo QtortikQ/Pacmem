@@ -19,7 +19,8 @@ public:
 	void spawnPacMan();
 	void spawnGhost();
 	void spawnScepFruit(int fruit, int posX, int posY);
-	void tryEatPacMan(std::vector<int> positionStruct, bool energize);
+	void tryEatPacMan(std::vector<int> positionStruct, bool energize, 
+		int &iterator);
 	void setMovement(int button);
 	void run();
 	void update(float deltaTime);
@@ -27,7 +28,7 @@ public:
 	void eatFruit(int x, int y);
 	void energizePacMan();
 	void ghostMovement();
-	void eatGhost();
+	void eatGhost(int &iterator);
 	void startPause();
 	void fillBoard(int &iterationF, int &iterationS);
 	void chooseState(int &iterator);
