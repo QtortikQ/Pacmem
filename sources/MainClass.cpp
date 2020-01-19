@@ -72,24 +72,23 @@ void MainClass::update(float deltaTime) {
 }
 
 void MainClass::setMovement(int button) {
+	if (FORWARD == button &&
+		render_.getChar(getWidth(), pacMan_.getPosition()[0], pacMan_.getPosition()[1] - 1) != char(getWall())) {
 
-		if (FORWARD == button &&
-			render_.getChar(getWidth(), pacMan_.getPosition()[0], pacMan_.getPosition()[1] - 1) != char(getWall())) {
-
-			button_ = button;
-		}
-		if (BACKWARD == button && 
-			render_.getChar(getWidth(), pacMan_.getPosition()[0], pacMan_.getPosition()[1] + 1) != char(getWall())) {
-			button_ = button;
-		}
-		if (TOLEFT == button && 
-			render_.getChar(getWidth(), pacMan_.getPosition()[0] - 1, pacMan_.getPosition()[1]) != char(getWall())) {
-			button_ = button;
-		}
-		if (TORIGHT == button &&
-			render_.getChar(getWidth(), pacMan_.getPosition()[0] + 1, pacMan_.getPosition()[1]) != char(getWall())) {
-			button_ = button;
-		}
+		button_ = button;
+	}
+	if (BACKWARD == button && 
+		render_.getChar(getWidth(), pacMan_.getPosition()[0], pacMan_.getPosition()[1] + 1) != char(getWall())) {
+		button_ = button;
+	}
+	if (TOLEFT == button && 
+		render_.getChar(getWidth(), pacMan_.getPosition()[0] - 1, pacMan_.getPosition()[1]) != char(getWall())) {
+		button_ = button;
+	}
+	if (TORIGHT == button &&
+		render_.getChar(getWidth(), pacMan_.getPosition()[0] + 1, pacMan_.getPosition()[1]) != char(getWall())) {
+		button_ = button;
+	}
 }
 
 void MainClass::movement() {
@@ -155,6 +154,10 @@ void MainClass::movement() {
 		break;
 	default:
 		break;
+	}
+	for (int i = 0; i < numOfGhosts(); i++) {
+		tryEatPacMan(pacMan_.getPosition(), pacMan_.getIsEnergized(), i);
+		eatGhost(i);
 	}
 }
 
@@ -304,8 +307,7 @@ void MainClass::run() {
 	}
 	while (true) {
 		timer.CStart();
-		if (_kbhit())
-		{
+		if (_kbhit()) {
 			button_ = _getch();
 			if (!FlushConsoleInputBuffer(render_.mConsoleIn))
 				std::cout << "FlushConsoleInputBuffer failed with error " << GetLastError();

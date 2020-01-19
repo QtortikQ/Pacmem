@@ -1,7 +1,13 @@
 ﻿#include "MainClass.hpp"
+#include <Windows.h>
+#include <iostream>
 
 int main()
 {
+	//SetConsoleCP(437);
+	//SetConsoleOutputCP(437);
+
+
 	int choice;
 	MainMenu mainMenu;
 	MainClass mainClass;

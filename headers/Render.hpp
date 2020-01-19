@@ -24,6 +24,8 @@ public:
 	void setChar(const int &sizeX, const int &x, const int &y, char c);
 	char getChar(const int &sizeX, const int &x, const int &y);
 	void cleanScene(const int &width, const int &height);
+	void fillBoardWithSpace(int &iterator);
+	void chooseTheSymbol(int& iterator, std::vector<std::string>& mapData);
 private:
 	HANDLE mConsole;
 	COORD mDwBufferSize;

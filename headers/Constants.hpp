@@ -47,12 +47,12 @@ inline const int getHeight() {
 	return 36;
 }
 
-inline const int getSpace() {
+inline const char getSpace() {
 	return 32;
 }
 
-inline const int getWall() {
-	return 219;
+inline const char getWall() {
+	return 35;
 }
 
 inline const int startPacManPosX() {

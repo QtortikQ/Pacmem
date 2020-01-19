@@ -50,10 +50,7 @@ void Render::prepScene(int sizeX = getWidth(), int sizeY = getHeight()) {
 void Render::cleanScene(const int &width, const int &height) {
 	for (int x = 0; x < width + 1; x++)
 	{
-		for (int y = 0; y < height + 1; y++)
-		{
-			setChar(width, x, y, getSpace());
-		}
+		fillBoardWithSpace(x);
 	}
 }
 
@@ -70,20 +67,7 @@ void Render::renderScene() {
 
 void Render::renderMap(std::vector<std::string>& mapData){
 	for (int i = 0; i < getHeight(); i++) {
-		for (int j = 0; j < getWidth(); j++) {
-			if (mapData[i][j] == '1') {
-				mapData[i][j] = getWall();
-			}
-			if (mapData[i][j] == '2') {
-				mapData[i][j] = '.';
-			}
-			if (mapData[i][j] == '3') {
-				mapData[i][j] = '*';
-			}
-			if (mapData[i][j] == '0') {
-				mapData[i][j] = ' ';
-			}
-		}
+		chooseTheSymbol(i, mapData);
 	}
 }
 
@@ -95,10 +79,33 @@ void Render::setChar(const int &sizeX, const int &x, const int &y, char c)
 {
 	mChiBuffer[x + (sizeX + 1) * y].Char.AsciiChar = c;
 	mChiBuffer[x + (sizeX + 1) * y].Attributes = FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED;
-
 }
 
 char Render::getChar(const int &sizeX, const int &x, const int &y)
 {
 	return mChiBuffer[x + (sizeX + 1) * y].Char.AsciiChar;
+}
+
+void Render::fillBoardWithSpace(int &iterator){
+	for (int y = 0; y < getHeight() + 1; y++)
+	{
+		setChar(getWidth(), iterator, y, getSpace());
+	}
+}
+
+void Render::chooseTheSymbol(int &iterator, std::vector<std::string>& mapData) {
+	for (int j = 0; j < getWidth(); j++) {
+		if (mapData[iterator][j] == '1') {
+			mapData[iterator][j] = char(getWall());
+		}
+		if (mapData[iterator][j] == '2') {
+			mapData[iterator][j] = '.';
+		}
+		if (mapData[iterator][j] == '3') {
+			mapData[iterator][j] = '*';
+		}
+		if (mapData[iterator][j] == '0') {
+			mapData[iterator][j] = getSpace();
+		}
+	}
 }
