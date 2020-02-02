@@ -1,0 +1,2 @@
+C:\MinGW\bin\ar.exe qc libliba.a  CMakeFiles/liba.dir/Blinky.cpp.obj CMakeFiles/liba.dir/GameField.cpp.obj CMakeFiles/liba.dir/Ghost.cpp.obj CMakeFiles/liba.dir/Inky.cpp.obj CMakeFiles/liba.dir/Klayd.cpp.obj CMakeFiles/liba.dir/MainClass.cpp.obj CMakeFiles/liba.dir/MainMenu.cpp.obj CMakeFiles/liba.dir/PacMan.cpp.obj CMakeFiles/liba.dir/Pinky.cpp.obj CMakeFiles/liba.dir/Render.cpp.obj CMakeFiles/liba.dir/StateMachine.cpp.obj
+C:\MinGW\bin\ranlib.exe libliba.a
